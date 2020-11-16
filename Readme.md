@@ -1,7 +1,7 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Петр Полунин](https://up.htmlacademy.ru/ecmascript/13/user/201238).
-* Наставник: `Неизвестно`.
+* Наставник: `Ксения Толстых`.
 
 ---
 
