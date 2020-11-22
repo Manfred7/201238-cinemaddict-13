@@ -11,8 +11,28 @@ import {createFilmsMostCommentedTemplate} from "./view/films-most-commented";
 import {createStatsTemplate} from "./view/stats";
 import {createFilmsEmptyTemplate} from "./view/films-empty";
 
+import {getRandomInteger} from "./utils";
+import {generateFilm} from "./mock/film";
+
 const FILMS_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
+const GENERATE_FILMS_COUNT_MIN = 15;
+const GENERATE_FILMS_COUNT_MAX = 20;
+
+
+const generateFilmsData = () => {
+  let newFilms = [];
+  const count = getRandomInteger(GENERATE_FILMS_COUNT_MIN, GENERATE_FILMS_COUNT_MAX);
+
+  for (let i = 0; i < count - 1; i++) {
+    newFilms.push(generateFilm());
+  }
+  return newFilms;
+};
+
+let filmsData = generateFilmsData();
+console.log(filmsData);
+
 
 const siteMainElement = document.querySelector(`.main`);
 
@@ -25,7 +45,7 @@ const renderUserTitle = () => {
   render(header, createUsersTitleTemplate(), `beforeend`);
 };
 
-const renderFooterStatistic = () =>{
+const renderFooterStatistic = () => {
   const footerStatistics = document.querySelector(`.footer__statistics`);
   render(footerStatistics, createFooterStatisticsCardTemplate(), `beforeend`);
 };
@@ -53,7 +73,7 @@ const createFilms = () => {
   const filmsContainer = filmList.querySelector(`.films-list__container`);
 
   for (let i = 0; i < FILMS_COUNT; i++) {
-    render(filmsContainer, createFilmCardTemplate(), `beforeend`);
+    render(filmsContainer, createFilmCardTemplate(filmsData[i]), `beforeend`);
   }
 
   render(filmList, createShowMoreButtonTemplate(), `beforeend`);
@@ -64,12 +84,12 @@ const createFilms = () => {
 
   const filmsTopRatedContainer = filmExtraLists[0].querySelector(`.films-list__container`);
   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-    render(filmsTopRatedContainer, createFilmCardTemplate(), `beforeend`);
+    render(filmsTopRatedContainer, createFilmCardTemplate(filmsData[i]), `beforeend`);
   }
 
   const filmsMostCommentedContainer = filmExtraLists[1].querySelector(`.films-list__container`);
   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-    render(filmsMostCommentedContainer, createFilmCardTemplate(), `beforeend`);
+    render(filmsMostCommentedContainer, createFilmCardTemplate(filmsData[i]), `beforeend`);
   }
 };
 
@@ -98,6 +118,6 @@ window.main = {
   doRenderStats: renderStats // отрисовка статистики как в stats.html
 };
 
-window.main.doRenderPopup();
+window.main.doRenderList();
 
 
