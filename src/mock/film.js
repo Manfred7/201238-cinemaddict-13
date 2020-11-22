@@ -1,11 +1,15 @@
 import {getRandomArrayElement} from "../utils.js";
 import {getRandomInteger} from "../utils.js";
 import {generateComment} from "./comment";
+import dayjs from "dayjs";
 
 const MAX_DESCRIPTION_SENTENCE_COUNT = 5;
 const MAX_COMMENTS_COUNT = 5;
 const POSTERS_DIR = `./images/posters/`;
-
+const DAYS = 30;
+const MONTHS = 12;
+const YEARS = 100;
+const START_DATE = `1920-01-01`;
 
 const POSTERS = [`made-for-each-other.png`,
   `popeye-meets-sinbad.png`,
@@ -37,7 +41,6 @@ const DESCRIPTIONS = [
 ];
 
 
-
 const generateFilmCaption = () => getRandomArrayElement(CAPTIONS);
 const generateFilmPoster = () => POSTERS_DIR + getRandomArrayElement(POSTERS);
 
@@ -50,7 +53,7 @@ const generateDescription = () => {
   return newDescription;
 };
 
-const generateComments = ()=>{
+const generateComments = () => {
   const count = getRandomInteger(1, MAX_COMMENTS_COUNT);
   let newComments = [];
   for (let i = 0; i < count - 1; i++) {
@@ -59,11 +62,33 @@ const generateComments = ()=>{
   return newComments;
 };
 
+const generateReleaseDate = () => {
+
+  const maxDaysGap = DAYS * MONTHS * YEARS;
+  const daysGap = getRandomInteger(0, maxDaysGap);
+
+  return dayjs(START_DATE).add(daysGap, `day`).toDate();
+};
+
 export const generateFilm = () => {
   return {
     caption: generateFilmCaption(),
     poster: generateFilmPoster(),
     description: generateDescription(),
-    comments: generateComments()
+    comments: generateComments(),
+    rating: `9.0`,
+    //  createYear: `1998`,  //наверное есть смысл извлекать из releaseDate
+    duration: `1h 36m`,
+    genres: [`music`],
+    // далее идут расширеные значения используемые в попап
+    originalName: `Оригинальное название фильма`,
+    director: `Режисер`,
+    screenwriters: [`Zemekis`],
+    cast: [`Orlando Blum`],
+    releaseDate: generateReleaseDate(), //  `01 April 1995`,
+    country: `USA`,
+    ageRating: `6+`
+
+
   };
 };

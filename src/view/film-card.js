@@ -1,6 +1,10 @@
+import dayjs from "dayjs";
+
 export const createFilmCardTemplate = (filmData) => {
-  const {caption, poster, description, comments} = filmData;
+  const {caption, poster, description, rating, duration, comments, releaseDate, genres} = filmData;
   const commentsCount = comments.length;
+  const allGenres = genres.join(`,`);
+  const creteYear = dayjs(releaseDate).format(`YYYY`);
 
   /*
   * количество комментариев если их нет наверно удалять блок, уточить в ТЗ, но скорее всего так хотя может быть и 0
@@ -8,11 +12,11 @@ export const createFilmCardTemplate = (filmData) => {
   return `
     <article class="film-card">
       <h3 class="film-card__title">${caption}</h3>
-      <p class="film-card__rating">8.3</p>
+      <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
-        <span class="film-card__year">1929</span>
-        <span class="film-card__duration">1h 55m</span>
-        <span class="film-card__genre">Musical</span>
+        <span class="film-card__year">${creteYear}</span>
+        <span class="film-card__duration">${duration}</span>
+        <span class="film-card__genre">${allGenres}</span>
       </p>
       <img src="${poster}" alt="${caption}" class="film-card__poster">
       <p class="film-card__description">${description}</p>

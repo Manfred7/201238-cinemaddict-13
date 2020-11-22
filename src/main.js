@@ -124,7 +124,7 @@ const renderPopup = () => {
   render(siteMainElement, createFilmsTemplate(), `beforeend`);
   createFilms();
   renderFooterStatistic();
-  render(siteMainElement, createFilmPopupTemplate(), `beforeend`);
+  render(siteMainElement, createFilmPopupTemplate(filmsData[0]), `beforeend`);
 };
 
 window.main = {
@@ -134,6 +134,6 @@ window.main = {
   doRenderStats: renderStats // отрисовка статистики как в stats.html
 };
 
-window.main.doRenderList();
+window.main.doRenderPopup();
 
 
