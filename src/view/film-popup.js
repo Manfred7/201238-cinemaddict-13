@@ -2,7 +2,10 @@ import dayjs from "dayjs";
 import {createFilmCommentTemplate} from "./film_comment";
 
 export const createFilmPopupTemplate = (filmData) => {
-  const {caption, poster, description, rating, duration, originalName, comments, country, releaseDate, genres} = filmData;
+  const {caption, poster, description, rating, duration, originalName, comments, country, releaseDate, genres, ageRating, director, screenwriters, cast} = filmData;
+
+  const writers = screenwriters.join(`, `);
+  const actors = cast.join(`, `);
 
   const createComments = (commentsData) => {
     let commentsTemplate = commentsData
@@ -12,7 +15,15 @@ export const createFilmPopupTemplate = (filmData) => {
     return `<ul class="film-details__comments-list">${commentsTemplate} </ul>`;
   };
 
-  const allGenres = genres.join(`,`);
+  const createGenres = (genresData) => {
+    let genresTemplate = genresData
+      .map((item) => `<span class="film-details__genre">${item}</span>`)
+      .join(``);
+
+    return genresTemplate;
+  };
+
+  const allGenres = createGenres(genres);
   const releaseDateFormated = dayjs(releaseDate).format(`DD MMMM YYYY`);
   const commentsText = createComments(comments);
 
@@ -26,14 +37,14 @@ export const createFilmPopupTemplate = (filmData) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="${poster}" alt="">
 
-          <p class="film-details__age">18+</p>
+          <p class="film-details__age">${ageRating}</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
               <h3 class="film-details__title">${caption}</h3>
-              <p class="film-details__title-original">Original: ${originalName}</p>
+              <p class="film-details__title-original">${originalName}</p>
             </div>
 
             <div class="film-details__rating">
@@ -44,15 +55,15 @@ export const createFilmPopupTemplate = (filmData) => {
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">Anthony Mann</td>
+              <td class="film-details__cell">${director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+              <td class="film-details__cell">${writers}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+              <td class="film-details__cell">${actors}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
@@ -69,9 +80,8 @@ export const createFilmPopupTemplate = (filmData) => {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${allGenres}</span>
-                <span class="film-details__genre">Film-Noir</span>
-                <span class="film-details__genre">Mystery</span></td>
+              ${allGenres}
+              </td>
             </tr>
           </table>
 
@@ -95,7 +105,7 @@ export const createFilmPopupTemplate = (filmData) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
          ${commentsText}
         <div class="film-details__new-comment">
           <div class="film-details__add-emoji-label"></div>

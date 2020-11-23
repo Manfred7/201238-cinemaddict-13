@@ -10,3 +10,13 @@ export const getRandomInteger = (a = 0, b = 1) => {
 export const getRandomArrayElement = (array) => {
   return array[getRandomInteger(0, array.length - 1)];
 };
+
+
+export const generateRandomSet = (array) => {
+  let result = new Set();
+  let count = getRandomInteger(0, array.length);
+  while (result.size < count) {
+    result.add(getRandomArrayElement(array));
+  }
+  return result;
+};
