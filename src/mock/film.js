@@ -11,6 +11,9 @@ const DAYS = 30;
 const MONTHS = 12;
 const YEARS = 100;
 const START_DATE = `1920-01-01`;
+const MAX_HOURS = 2;
+const MIN_HOURS = 1;
+const MAX_MINUTES = 59;
 
 const POSTERS = [`made-for-each-other.png`,
   `popeye-meets-sinbad.png`,
@@ -68,7 +71,6 @@ const CAST = [`Pedro Pascal`,
 
 const COUNTRYS = [`USA`, `FRANCE`, `GGY`, `GIB`, `HND`, `HKG`, `GRD`, `GRL`, `GRC`, `GEO`];
 const RATINGS = [`7.3`, `9.2`, `5.6`, `4.7`, `8.6`];
-const DURATIONS = [`2h 36m`, `1h 26m`, `1h 24m`, `2h 46m`, `1h 15m`];
 const GENRES = [`blockbuster`, `cartoon`, `comedy`, `music`];
 const AGE_RATING = [`0+`, `6+`, `12+`, `18+`, `21+`];
 
@@ -80,15 +82,21 @@ const generateDirector = () => getRandomArrayElement(DIRECTORS);
 
 const generateRating = () => getRandomArrayElement(RATINGS);
 
-const generateDuration = () => getRandomArrayElement(DURATIONS);
+
+const generateDuration = () => {
+  return {
+    h: getRandomInteger(MIN_HOURS, MAX_HOURS),
+    m: getRandomInteger(0, MAX_MINUTES),
+  };
+};
 
 const generateCountry = () => getRandomArrayElement(COUNTRYS);
 const generateAgeRating = () => getRandomArrayElement(AGE_RATING);
 
-const generateGenres = () =>  Array.from(generateRandomSet(GENRES));
+const generateGenres = () => Array.from(generateRandomSet(GENRES));
 
 const generateScreenwriters = () => Array.from(generateRandomSet(SCREENWRITERS));
-const generateCast = () =>  Array.from(generateRandomSet(CAST));
+const generateCast = () => Array.from(generateRandomSet(CAST));
 
 const generateDescription = () => {
   const count = getRandomInteger(1, MAX_DESCRIPTION_SENTENCE_COUNT);
@@ -132,7 +140,5 @@ export const generateFilm = () => {
     releaseDate: generateReleaseDate(),
     country: generateCountry(),
     ageRating: generateAgeRating()
-
-
   };
 };

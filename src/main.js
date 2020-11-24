@@ -12,6 +12,7 @@ import {createStatsTemplate} from "./view/stats";
 import {createFilmsEmptyTemplate} from "./view/films-empty";
 import {getRandomInteger} from "./utils";
 import {generateFilm} from "./mock/film";
+import {generateUserdata} from "./mock/user-data";
 
 const FILM_COUNT_PER_STEP = 5;
 const FILMS_EXTRA_COUNT = 2;
@@ -29,6 +30,7 @@ const generateFilmsData = () => {
 };
 
 let filmsData = generateFilmsData();
+const userinfo = generateUserdata(filmsData);
 
 const siteMainElement = document.querySelector(`.main`);
 
@@ -38,26 +40,30 @@ const render = (container, template, place) => {
 
 const renderUserTitle = () => {
   const header = document.querySelector(`.header`);
-  render(header, createUsersTitleTemplate(), `beforeend`);
+  render(header, createUsersTitleTemplate(userinfo), `beforeend`);
 };
 
 const renderFooterStatistic = () => {
   const footerStatistics = document.querySelector(`.footer__statistics`);
-  render(footerStatistics, createFooterStatisticsCardTemplate(), `beforeend`);
+  render(footerStatistics, createFooterStatisticsCardTemplate(filmsData.length), `beforeend`);
+};
+
+const createFilters = () => {
+  render(siteMainElement, createSiteMenuTemplate(userinfo), `beforeend`);
 };
 
 const renderStats = () => {
   renderUserTitle();
 
-  render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
-  render(siteMainElement, createStatsTemplate(), `beforeend`);
+  createFilters();
+  render(siteMainElement, createStatsTemplate(userinfo), `beforeend`);
 
   renderFooterStatistic();
 };
 
 const renderListEmpty = () => {
   renderUserTitle();
-  render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
+  createFilters();
   render(siteMainElement, createFilmsEmptyTemplate(), `beforeend`);
 
   renderFooterStatistic();
@@ -111,7 +117,7 @@ const createFilms = () => {
 
 const renderList = () => {
   renderUserTitle();
-  render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
+  createFilters();
   render(siteMainElement, createSortTemplate(), `beforeend`);
   render(siteMainElement, createFilmsTemplate(), `beforeend`);
   createFilms();
@@ -119,7 +125,7 @@ const renderList = () => {
 };
 
 const renderPopup = () => {
-  render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
+  createFilters();
   render(siteMainElement, createSortTemplate(), `beforeend`);
   render(siteMainElement, createFilmsTemplate(), `beforeend`);
   createFilms();

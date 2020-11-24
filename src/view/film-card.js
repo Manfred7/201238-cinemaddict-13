@@ -5,17 +5,15 @@ export const createFilmCardTemplate = (filmData) => {
   const commentsCount = comments.length;
   const allGenres = genres.join(`,`);
   const creteYear = dayjs(releaseDate).format(`YYYY`);
+  const formatedDuration = `${duration.h}h ${duration.m}m`;
 
-  /*
-  * количество комментариев если их нет наверно удалять блок, уточить в ТЗ, но скорее всего так хотя может быть и 0
-  * */
   return `
     <article class="film-card">
       <h3 class="film-card__title">${caption}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${creteYear}</span>
-        <span class="film-card__duration">${duration}</span>
+        <span class="film-card__duration">${formatedDuration}</span>
         <span class="film-card__genre">${allGenres}</span>
       </p>
       <img src="${poster}" alt="${caption}" class="film-card__poster">

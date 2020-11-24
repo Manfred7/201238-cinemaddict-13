@@ -1,6 +1,6 @@
-export const createFooterStatisticsCardTemplate = () => {
+export const createFooterStatisticsCardTemplate = (filmsCount) => {
   return `
     <section class="footer__statistics">
-      <p>0 movies inside</p>
+      <p>${filmsCount} movies inside</p>
     </section>`;
 };

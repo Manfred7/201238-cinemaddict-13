@@ -6,6 +6,7 @@ export const createFilmPopupTemplate = (filmData) => {
 
   const writers = screenwriters.join(`, `);
   const actors = cast.join(`, `);
+  const formatedDuration = `${duration.h}h ${duration.m}m`;
 
   const createComments = (commentsData) => {
     let commentsTemplate = commentsData
@@ -71,7 +72,7 @@ export const createFilmPopupTemplate = (filmData) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${duration}</td>
+              <td class="film-details__cell">${formatedDuration}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
