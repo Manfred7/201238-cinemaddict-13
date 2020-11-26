@@ -1,3 +1,4 @@
+import {getRandomInteger} from "./utils.js";
 import {createFilmCardTemplate} from "./view/film-card.js";
 import {createFilmPopupTemplate} from "./view/film-popup.js";
 import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
@@ -10,7 +11,6 @@ import {createFilmsTopRatedTemplate} from "./view/films-top-rated";
 import {createFilmsMostCommentedTemplate} from "./view/films-most-commented";
 import {createStatsTemplate} from "./view/stats";
 import {createFilmsEmptyTemplate} from "./view/films-empty";
-import {getRandomInteger} from "./utils";
 import {generateFilm} from "./mock/film";
 import {generateUserdata} from "./mock/user-data";
 
@@ -20,13 +20,9 @@ const GENERATE_FILMS_COUNT_MIN = 15;
 const GENERATE_FILMS_COUNT_MAX = 20;
 
 const generateFilmsData = () => {
-  let newFilms = [];
   const count = getRandomInteger(GENERATE_FILMS_COUNT_MIN, GENERATE_FILMS_COUNT_MAX);
 
-  for (let i = 0; i < count - 1; i++) {
-    newFilms.push(generateFilm());
-  }
-  return newFilms;
+  return Array(count).fill().map(generateFilm);
 };
 
 let filmsData = generateFilmsData();
@@ -74,29 +70,42 @@ const createFilms = () => {
   const filmList = films.querySelector(`.films-list`);
   const filmsContainer = filmList.querySelector(`.films-list__container`);
 
-  for (let i = 0; i < FILM_COUNT_PER_STEP; i++) {
-    render(filmsContainer, createFilmCardTemplate(filmsData[i]), `beforeend`);
-  }
+  let renderedFilmCount = 0;
 
-  if (filmsData.length > FILM_COUNT_PER_STEP) {
-    let renderedFilmCount = FILM_COUNT_PER_STEP;
+  const renderFilmsData = (fromIndex, count) => {
+    filmsData
+      .slice(fromIndex, fromIndex + count)
+      .forEach((film) => render(filmsContainer, createFilmCardTemplate(film), `beforeend`));
 
+    renderedFilmCount += count;
+  };
+
+  const renderFirstStep = () => {
+    renderFilmsData(renderedFilmCount, FILM_COUNT_PER_STEP);
+  };
+
+  const initShowMore = () => {
     render(filmList, createShowMoreButtonTemplate(), `beforeend`);
 
     const loadMoreButton = filmList.querySelector(`.films-list__show-more`);
 
-    loadMoreButton.addEventListener(`click`, (evt) => {
+    const OnLoadMore = (evt) => {
       evt.preventDefault();
-      filmsData
-        .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-        .forEach((film) => render(filmsContainer, createFilmCardTemplate(film), `beforeend`));
 
-      renderedFilmCount += FILM_COUNT_PER_STEP;
+      renderFilmsData(renderedFilmCount, FILM_COUNT_PER_STEP);
 
       if (renderedFilmCount >= filmsData.length) {
         loadMoreButton.remove();
       }
-    });
+    };
+
+    loadMoreButton.addEventListener(`click`, OnLoadMore);
+  };
+
+  renderFirstStep();
+
+  if (filmsData.length > renderedFilmCount) {
+    initShowMore();
   }
 
   render(films, createFilmsTopRatedTemplate(), `beforeend`);

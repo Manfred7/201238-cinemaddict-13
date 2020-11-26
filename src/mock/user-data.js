@@ -5,11 +5,9 @@ const FAN = `fan`;
 const NOVICE = `novice`;
 const NOVICE_LEFT = 1;
 const NOVICE_RIGHT = 10;
-
 const FAN_LEFT = 10;
 const FAN_RIGHT = 20;
 const MOVIE_BUFF_LEFT = 21;
-
 
 export const generateUserdata = (filmsData) => {
   const watchlist = Array.from(generateRandomSet(filmsData));
@@ -34,9 +32,7 @@ export const generateUserdata = (filmsData) => {
     }
   };
 
-  const generateProfileAvatar = () => {
-    return `images/bitmap@2x.png`;
-  };
+  const generateProfileAvatar = () => `images/bitmap@2x.png`;
 
   const generateFavoriteGenre = () => `Sci-Fi`;
 

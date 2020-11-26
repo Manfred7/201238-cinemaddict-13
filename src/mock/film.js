@@ -1,6 +1,7 @@
 import {getRandomArrayElement} from "../utils.js";
 import {getRandomInteger} from "../utils.js";
 import {generateRandomSet} from "../utils.js";
+import {generateRandomArray} from "../utils.js";
 import {generateComment} from "./comment";
 import dayjs from "dayjs";
 
@@ -91,39 +92,31 @@ const generateDuration = () => {
 };
 
 const generateCountry = () => getRandomArrayElement(COUNTRYS);
+
 const generateAgeRating = () => getRandomArrayElement(AGE_RATING);
 
 const generateGenres = () => Array.from(generateRandomSet(GENRES));
 
 const generateScreenwriters = () => Array.from(generateRandomSet(SCREENWRITERS));
+
 const generateCast = () => Array.from(generateRandomSet(CAST));
 
-const generateDescription = () => {
-  const count = getRandomInteger(1, MAX_DESCRIPTION_SENTENCE_COUNT);
-  let newDescription = [];
-  for (let i = 0; i < count - 1; i++) {
-    newDescription.push(getRandomArrayElement(DESCRIPTIONS));
-  }
-  return newDescription;
-};
+const getDescriptionElement = () => getRandomArrayElement(DESCRIPTIONS);
 
-const generateComments = () => {
-  const count = getRandomInteger(1, MAX_COMMENTS_COUNT);
-  let newComments = [];
-  for (let i = 0; i < count - 1; i++) {
-    newComments.push(generateComment());
-  }
-  return newComments;
-};
+const generateDescription = () => generateRandomArray(getDescriptionElement, MAX_DESCRIPTION_SENTENCE_COUNT);
+
+const generateComments = () => generateRandomArray(generateComment, MAX_COMMENTS_COUNT);
 
 const generateReleaseDate = () => {
   const maxDaysGap = DAYS * MONTHS * YEARS;
   const daysGap = getRandomInteger(0, maxDaysGap);
+
   return dayjs(START_DATE).add(daysGap, `day`).toDate();
 };
 
 export const generateFilm = () => {
   const filmCaption = generateFilmCaption();
+
   return {
     caption: filmCaption,
     poster: generateFilmPoster(),

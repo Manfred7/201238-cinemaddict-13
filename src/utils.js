@@ -20,3 +20,9 @@ export const generateRandomSet = (array, count = getRandomInteger(MIN_RANDOM_SET
   }
   return result;
 };
+
+export const generateRandomArray = (getElement, MaxLength) => {
+  const count = getRandomInteger(1, MaxLength);
+
+  return new Array(count).fill().map(getElement);
+};
