@@ -1,10 +1,18 @@
-export const createStatsTemplate = () => {
+export const createStatsTemplate = (Userdata) => {
+  const {profileAvatar, profileRating, historyCount, history, favoriteGenre} = Userdata;
+  let totalDuartion = 0;
+  history.forEach((current) => {
+    totalDuartion = totalDuartion + current.duration.h * 60 + current.duration.m;
+  });
+  // console.log(`duration :${totalDuartion}`);
+  const totalHour = Math.floor(totalDuartion / 60);
+  const totalMin = totalDuartion - totalHour * 60;
   return `
     <section class="statistic">
       <p class="statistic__rank">
         Your rank
-        <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-          <span class="statistic__rank-label">Sci-Fighter</span>
+        <img class="statistic__img" src="${profileAvatar}" alt="Avatar" width="35" height="35">
+          <span class="statistic__rank-label">${profileRating}</span>
       </p>
 
       <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
@@ -29,15 +37,15 @@ export const createStatsTemplate = () => {
       <ul class="statistic__text-list">
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">You watched</h4>
-          <p class="statistic__item-text">22 <span class="statistic__item-description">movies</span></p>
+          <p class="statistic__item-text">${historyCount} <span class="statistic__item-description">movies</span></p>
         </li>
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">Total duration</h4>
-          <p class="statistic__item-text">130 <span class="statistic__item-description">h</span> 22 <span class="statistic__item-description">m</span></p>
+          <p class="statistic__item-text">${totalHour}<span class="statistic__item-description">h</span> ${totalMin} <span class="statistic__item-description">m</span></p>
         </li>
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">Top genre</h4>
-          <p class="statistic__item-text">Sci-Fi</p>
+          <p class="statistic__item-text">${favoriteGenre}</p>
         </li>
       </ul>
 
