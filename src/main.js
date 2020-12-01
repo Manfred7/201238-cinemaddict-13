@@ -1,16 +1,17 @@
 import {getRandomInteger} from "./utils.js";
-import {createFilmCardTemplate} from "./view/film-card.js";
-import {createFilmPopupTemplate} from "./view/film-popup.js";
-import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
-import {createSiteMenuTemplate} from "./view/site-menu.js";
-import {createUsersTitleTemplate} from "./view/users-title.js";
-import {createSortTemplate} from "./view/sort.js";
-import {createFilmsTemplate} from "./view/films.js";
-import {createFooterStatisticsCardTemplate} from "./view/footer-statistics";
-import {createFilmsTopRatedTemplate} from "./view/films-top-rated";
-import {createFilmsMostCommentedTemplate} from "./view/films-most-commented";
-import {createStatsTemplate} from "./view/stats";
-import {createFilmsEmptyTemplate} from "./view/films-empty";
+import {render, RenderPosition} from "./utils.js";
+import SiteMenuView from "./view/site-menu.js";
+import FilmCardView from "./view/film-card.js";
+import FilmPopupView from "./view/film-popup.js";
+import ShowMoreButtonView from "./view/show-more-button.js";
+import UsersTitleView from "./view/users-title.js";
+import SortView from "./view/sort.js";
+import FilmsView from "./view/films.js";
+import FooterStatisticsCardView from "./view/footer-statistics";
+import FilmsTopRatedView from "./view/films-top-rated";
+import FilmsMostCommentedView from "./view/films-most-commented";
+import StatsView from "./view/stats";
+import FilmsEmptyView from "./view/films-empty";
 import {generateFilm} from "./mock/film";
 import {generateUserdata} from "./mock/user-data";
 
@@ -30,29 +31,25 @@ const userinfo = generateUserdata(filmsData);
 
 const siteMainElement = document.querySelector(`.main`);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 const renderUserTitle = () => {
   const header = document.querySelector(`.header`);
-  render(header, createUsersTitleTemplate(userinfo), `beforeend`);
+  render(header, new UsersTitleView(userinfo).getElement(), RenderPosition.BEFOREEND);
 };
 
 const renderFooterStatistic = () => {
   const footerStatistics = document.querySelector(`.footer__statistics`);
-  render(footerStatistics, createFooterStatisticsCardTemplate(filmsData.length), `beforeend`);
+  render(footerStatistics, new FooterStatisticsCardView(filmsData.length).getElement(), RenderPosition.BEFOREEND);
 };
 
 const createFilters = () => {
-  render(siteMainElement, createSiteMenuTemplate(userinfo), `beforeend`);
+  render(siteMainElement, new SiteMenuView(userinfo).getElement(), RenderPosition.BEFOREEND);
 };
 
 const renderStats = () => {
   renderUserTitle();
 
   createFilters();
-  render(siteMainElement, createStatsTemplate(userinfo), `beforeend`);
+  render(siteMainElement, new StatsView(userinfo).getElement(), RenderPosition.BEFOREEND);
 
   renderFooterStatistic();
 };
@@ -60,7 +57,7 @@ const renderStats = () => {
 const renderListEmpty = () => {
   renderUserTitle();
   createFilters();
-  render(siteMainElement, createFilmsEmptyTemplate(), `beforeend`);
+  render(siteMainElement, new FilmsEmptyView().getElement(), RenderPosition.BEFOREEND);
 
   renderFooterStatistic();
 };
@@ -75,7 +72,7 @@ const createFilms = () => {
   const renderFilmsData = (fromIndex, count) => {
     filmsData
       .slice(fromIndex, fromIndex + count)
-      .forEach((film) => render(filmsContainer, createFilmCardTemplate(film), `beforeend`));
+      .forEach((film) => render(filmsContainer, new FilmCardView(film).getElement(), RenderPosition.BEFOREEND));
 
     renderedFilmCount += count;
   };
@@ -85,7 +82,7 @@ const createFilms = () => {
   };
 
   const initShowMore = () => {
-    render(filmList, createShowMoreButtonTemplate(), `beforeend`);
+    render(filmList, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
 
     const loadMoreButton = filmList.querySelector(`.films-list__show-more`);
 
@@ -108,38 +105,44 @@ const createFilms = () => {
     initShowMore();
   }
 
-  render(films, createFilmsTopRatedTemplate(), `beforeend`);
-  render(films, createFilmsMostCommentedTemplate(), `beforeend`);
+  render(films, new FilmsTopRatedView().getElement(), RenderPosition.BEFOREEND);
+  render(films, new FilmsMostCommentedView().getElement(), RenderPosition.BEFOREEND);
 
   const filmExtraLists = document.querySelectorAll(`.films-list--extra`);
 
   const filmsTopRatedContainer = filmExtraLists[0].querySelector(`.films-list__container`);
   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-    render(filmsTopRatedContainer, createFilmCardTemplate(filmsData[i]), `beforeend`);
+    render(filmsTopRatedContainer, new FilmCardView(filmsData[i]).getElement(), RenderPosition.BEFOREEND);
   }
 
   const filmsMostCommentedContainer = filmExtraLists[1].querySelector(`.films-list__container`);
   for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-    render(filmsMostCommentedContainer, createFilmCardTemplate(filmsData[i]), `beforeend`);
+    render(filmsMostCommentedContainer, new FilmCardView(filmsData[i]).getElement(), RenderPosition.BEFOREEND);
   }
 };
+
+const renderSort = () => render(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
+
+const renderFilmsView = () => render(siteMainElement, new FilmsView().getElement(), RenderPosition.BEFOREEND);
+
+const renderPopupView = () => render(siteMainElement, new FilmPopupView(filmsData[0]).getElement(), RenderPosition.BEFOREEND);
 
 const renderList = () => {
   renderUserTitle();
   createFilters();
-  render(siteMainElement, createSortTemplate(), `beforeend`);
-  render(siteMainElement, createFilmsTemplate(), `beforeend`);
+  renderSort();
+  renderFilmsView();
   createFilms();
   renderFooterStatistic();
 };
 
 const renderPopup = () => {
   createFilters();
-  render(siteMainElement, createSortTemplate(), `beforeend`);
-  render(siteMainElement, createFilmsTemplate(), `beforeend`);
+  renderSort();
+  renderFilmsView();
   createFilms();
   renderFooterStatistic();
-  render(siteMainElement, createFilmPopupTemplate(filmsData[0]), `beforeend`);
+  renderPopupView();
 };
 
 window.main = {
@@ -149,6 +152,6 @@ window.main = {
   doRenderStats: renderStats // отрисовка статистики как в stats.html
 };
 
-window.main.doRenderPopup();
+window.main.doRenderStats();
 
 
