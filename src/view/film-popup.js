@@ -42,8 +42,7 @@ const createFilmPopupTemplate = (filmData) => {
   const releaseDateFormated = dayjs(releaseDate).format(`DD MMMM YYYY`);
   const commentsText = createComments(comments);
 
-  return `<section class="film-details">
-  <form class="film-details__inner" action="" method="get">
+  return `<section class="film-details"> <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
       <div class="film-details__close">
         <button class="film-details__close-btn" type="button">close</button>
