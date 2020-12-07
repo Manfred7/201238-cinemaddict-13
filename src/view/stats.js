@@ -1,5 +1,7 @@
-export const createStatsTemplate = (Userdata) => {
-  const {profileAvatar, profileRating, historyCount, history, favoriteGenre} = Userdata;
+import {createElement} from "../utils";
+
+const createStatsTemplate = (userData) => {
+  const {profileAvatar, profileRating, historyCount, history, favoriteGenre} = userData;
   let totalDuartion = 0;
   history.forEach((current) => {
     totalDuartion = totalDuartion + current.duration.h * 60 + current.duration.m;
@@ -7,8 +9,7 @@ export const createStatsTemplate = (Userdata) => {
   // console.log(`duration :${totalDuartion}`);
   const totalHour = Math.floor(totalDuartion / 60);
   const totalMin = totalDuartion - totalHour * 60;
-  return `
-    <section class="statistic">
+  return `<section class="statistic">
       <p class="statistic__rank">
         Your rank
         <img class="statistic__img" src="${profileAvatar}" alt="Avatar" width="35" height="35">
@@ -55,3 +56,27 @@ export const createStatsTemplate = (Userdata) => {
 
     </section>`;
 };
+
+export default class Stats {
+  constructor(userInfo) {
+    this.userInfo = userInfo;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createStatsTemplate(this.userInfo);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

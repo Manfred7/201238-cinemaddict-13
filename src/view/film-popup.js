@@ -1,8 +1,24 @@
 import dayjs from "dayjs";
 import {createFilmCommentTemplate} from "./film_comment";
+import {createElement} from "../utils";
 
-export const createFilmPopupTemplate = (filmData) => {
-  const {caption, poster, description, rating, duration, originalName, comments, country, releaseDate, genres, ageRating, director, screenwriters, cast} = filmData;
+const createFilmPopupTemplate = (filmData) => {
+  const {
+    caption,
+    poster,
+    description,
+    rating,
+    duration,
+    originalName,
+    comments,
+    country,
+    releaseDate,
+    genres,
+    ageRating,
+    director,
+    screenwriters,
+    cast
+  } = filmData;
 
   const writers = screenwriters.join(`, `);
   const actors = cast.join(`, `);
@@ -17,19 +33,16 @@ export const createFilmPopupTemplate = (filmData) => {
   };
 
   const createGenres = (genresData) => {
-    let genresTemplate = genresData
+    return genresData
       .map((item) => `<span class="film-details__genre">${item}</span>`)
       .join(``);
-
-    return genresTemplate;
   };
 
   const allGenres = createGenres(genres);
   const releaseDateFormated = dayjs(releaseDate).format(`DD MMMM YYYY`);
   const commentsText = createComments(comments);
 
-  return ` <section class="film-details">
-  <form class="film-details__inner" action="" method="get">
+  return `<section class="film-details"> <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
       <div class="film-details__close">
         <button class="film-details__close-btn" type="button">close</button>
@@ -142,3 +155,27 @@ export const createFilmPopupTemplate = (filmData) => {
   </form>
 </section>`;
 };
+
+export default class FilmPopup {
+  constructor(filmData) {
+    this._filmData = filmData;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._filmData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

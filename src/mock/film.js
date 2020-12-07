@@ -74,6 +74,7 @@ const COUNTRYS = [`USA`, `FRANCE`, `GGY`, `GIB`, `HND`, `HKG`, `GRD`, `GRL`, `GR
 const RATINGS = [`7.3`, `9.2`, `5.6`, `4.7`, `8.6`];
 const GENRES = [`blockbuster`, `cartoon`, `comedy`, `music`];
 const AGE_RATING = [`0+`, `6+`, `12+`, `18+`, `21+`];
+const GENRES_COUNT = 2;
 
 const generateFilmCaption = () => getRandomArrayElement(CAPTIONS);
 
@@ -95,7 +96,7 @@ const generateCountry = () => getRandomArrayElement(COUNTRYS);
 
 const generateAgeRating = () => getRandomArrayElement(AGE_RATING);
 
-const generateGenres = () => Array.from(generateRandomSet(GENRES));
+const generateGenres = () => Array.from(generateRandomSet(GENRES, GENRES_COUNT));
 
 const generateScreenwriters = () => Array.from(generateRandomSet(SCREENWRITERS));
 
