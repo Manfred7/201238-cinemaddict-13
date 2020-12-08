@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract.js";
 
 const createSiteMenuTemplate = (userInfo) => {
   const {watchlistCount, historyCount, favoritesCount} = userInfo;
@@ -14,25 +14,13 @@ const createSiteMenuTemplate = (userInfo) => {
 };
 
 
-export default class SiteMenu {
+export default class SiteMenu extends AbstractView {
   constructor(userInfo) {
+    super();
     this.userInfo = userInfo;
-    this._element = null;
   }
 
   getTemplate() {
     return createSiteMenuTemplate(this.userInfo);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

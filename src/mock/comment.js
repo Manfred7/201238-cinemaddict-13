@@ -1,6 +1,6 @@
-import {getRandomArrayElement} from "../utils.js";
+import {getRandomArrayElement} from "../utils/common.js";
 import dayjs from "dayjs";
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger} from "../utils/common.js";
 
 const EMOJIS_DIR = `./images/emoji/`;
 
