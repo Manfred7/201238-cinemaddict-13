@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import {createFilmCommentTemplate} from "./film_comment";
-import {createElement} from "../utils";
+import AbstractView from "./abstract.js";
+
 
 const createFilmPopupTemplate = (filmData) => {
   const {
@@ -156,26 +157,28 @@ const createFilmPopupTemplate = (filmData) => {
 </section>`;
 };
 
-export default class FilmPopup {
+export default class FilmPopup extends AbstractView {
   constructor(filmData) {
+    super();
     this._filmData = filmData;
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
+  }
+
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+  setClosePopupHandler(callback) {
+    this._callback.click = callback;
+
+    const closeBtn = this.getElement().querySelector(`.film-details__close`);
+    closeBtn.addEventListener(`click`, this._clickHandler);
   }
 
   getTemplate() {
     return createFilmPopupTemplate(this._filmData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
 

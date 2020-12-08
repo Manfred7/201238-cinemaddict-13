@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {createElement} from "../utils";
+import AbstractView from "./abstract.js";
 
 export const createFilmCommentTemplate = (commentData) => {
   const {emoji, author, day, text} = commentData;
@@ -19,25 +19,14 @@ export const createFilmCommentTemplate = (commentData) => {
 </li>`;
 };
 
-export class FilmComment {
+export class FilmComment extends AbstractView {
   constructor(commentData) {
+    super();
     this._filmData = commentData;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCommentTemplate(this.commentData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
