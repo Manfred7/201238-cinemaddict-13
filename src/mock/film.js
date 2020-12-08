@@ -1,7 +1,4 @@
-import {getRandomArrayElement} from "../utils.js";
-import {getRandomInteger} from "../utils.js";
-import {generateRandomSet} from "../utils.js";
-import {generateRandomArray} from "../utils.js";
+import {getRandomArrayElement, getRandomInteger, generateRandomSet, generateRandomArray} from "../utils/common.js";
 import {generateComment} from "./comment";
 import dayjs from "dayjs";
 

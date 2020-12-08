@@ -1,4 +1,4 @@
-import {generateRandomSet} from "../utils";
+import {generateRandomSet} from "../utils/common.js";
 
 const MOVIE_BUFF = `movie buff`;
 const FAN = `fan`;
