@@ -23,3 +23,17 @@ export const generateRandomArray = (getElement, MaxLength) => {
 
   return new Array(count).fill().map(getElement);
 };
+
+export const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1)
+  ];
+};

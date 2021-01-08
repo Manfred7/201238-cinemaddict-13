@@ -1,5 +1,3 @@
-import {generateRandomSet} from "../utils/common.js";
-
 const MOVIE_BUFF = `movie buff`;
 const FAN = `fan`;
 const NOVICE = `novice`;
@@ -10,9 +8,9 @@ const FAN_RIGHT = 20;
 const MOVIE_BUFF_LEFT = 21;
 
 export const generateUserdata = (filmsData) => {
-  const watchlist = Array.from(generateRandomSet(filmsData));
-  const history = Array.from(generateRandomSet(filmsData));
-  const favorites = Array.from(generateRandomSet(filmsData));
+  const watchlist = filmsData.filter((film) => film.isInWatchlist); // Array.from(generateRandomSet(filmsData));
+  const history = filmsData.filter((film) => film.isWatched); //  Array.from(generateRandomSet(filmsData));
+  const favorites = filmsData.filter((film) => film.isWatched); //  Array.from(generateRandomSet(filmsData));
 
   const generateProfileRating = () => {
 

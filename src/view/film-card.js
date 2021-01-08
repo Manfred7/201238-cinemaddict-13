@@ -32,28 +32,73 @@ export default class FilmCard extends AbstractView {
   constructor(filmData) {
     super();
     this._filmData = filmData;
-    this._clickHandler = this._clickHandler.bind(this);
+    this._showPopupClickHandler = this._showPopupClickHandler.bind(this);
+
+    this._addToWatchListHandler = this._addToWatchListHandler.bind(this);
+    this._addToWatchedHandler = this._addToWatchedHandler.bind(this);
+    this._addToFavoriteHandler = this._addToFavoriteHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._filmData);
   }
-  _clickHandler(evt) {
+
+  _showPopupClickHandler(evt) {
     evt.preventDefault();
-    this._callback.click();
+    this._callback.showPopupClick();
   }
 
+  _addToWatchListHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToWatchListClick();
+  }
+
+  setAddToWatchListHandler(callback) {
+    this._callback.addToWatchListClick = callback;
+    const filmViewElement = this.getElement();
+    const watchlistLabel = filmViewElement.querySelector(`.film-card__controls-item--add-to-watchlist`);
+
+    watchlistLabel.addEventListener(`click`, this._addToWatchListHandler);
+  }
+
+  _addToWatchedHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToWatchedClick();
+  }
+
+  setAddToWatchedHandler(callback) {
+    this._callback.addToWatchedClick = callback;
+    const filmViewElement = this.getElement();
+    const watchedLabel = filmViewElement.querySelector(`.film-card__controls-item--mark-as-watched`);
+
+    watchedLabel.addEventListener(`click`, this._addToWatchedHandler);
+  }
+
+  _addToFavoriteHandler(evt) {
+    evt.preventDefault();
+    this._callback.addToFavoriteClick();
+  }
+
+  setAddToFavoriteHandler(callback) {
+    this._callback.addToFavoriteClick = callback;
+    const filmViewElement = this.getElement();
+    const favoriteLabel = filmViewElement.querySelector(`.film-card__controls-item--favorite`);
+
+    favoriteLabel.addEventListener(`click`, this._addToFavoriteHandler);
+  }
+
+
   setShowPopupHandler(callback) {
-    this._callback.click = callback;
+    this._callback.showPopupClick = callback;
 
     const filmViewElement = this.getElement();
     const filmsTitles = filmViewElement.querySelector(`.film-card__title`);
     const filmsPosters = filmViewElement.querySelector(`img`);
     const filmsComments = filmViewElement.querySelector(`.film-card__comments`);
 
-    filmsTitles.addEventListener(`click`, this._clickHandler);
-    filmsPosters.addEventListener(`click`, this._clickHandler);
-    filmsComments.addEventListener(`click`, this._clickHandler);
+    filmsTitles.addEventListener(`click`, this._showPopupClickHandler);
+    filmsPosters.addEventListener(`click`, this._showPopupClickHandler);
+    filmsComments.addEventListener(`click`, this._showPopupClickHandler);
 
   }
 

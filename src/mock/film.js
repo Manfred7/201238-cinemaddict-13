@@ -81,6 +81,7 @@ const generateDirector = () => getRandomArrayElement(DIRECTORS);
 
 const generateRating = () => getRandomArrayElement(RATINGS);
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 const generateDuration = () => {
   return {
@@ -116,6 +117,7 @@ export const generateFilm = () => {
   const filmCaption = generateFilmCaption();
 
   return {
+    id: generateId(),
     caption: filmCaption,
     poster: generateFilmPoster(),
     description: generateDescription(),
@@ -130,6 +132,9 @@ export const generateFilm = () => {
     cast: generateCast(),
     releaseDate: generateReleaseDate(),
     country: generateCountry(),
-    ageRating: generateAgeRating()
+    ageRating: generateAgeRating(),
+    isInWatchlist: Boolean(getRandomInteger(0, 1)),
+    isWatched: Boolean(getRandomInteger(0, 1)),
+    isFavorite: Boolean(getRandomInteger(0, 1))
   };
 };
