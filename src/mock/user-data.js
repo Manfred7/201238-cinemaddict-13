@@ -8,9 +8,9 @@ const FAN_RIGHT = 20;
 const MOVIE_BUFF_LEFT = 21;
 
 export const generateUserdata = (filmsData) => {
-  const watchlist = filmsData.filter((film) => film.isInWatchlist); // Array.from(generateRandomSet(filmsData));
-  const history = filmsData.filter((film) => film.isWatched); //  Array.from(generateRandomSet(filmsData));
-  const favorites = filmsData.filter((film) => film.isWatched); //  Array.from(generateRandomSet(filmsData));
+  const watchlist = filmsData.filter((film) => film.isInWatchlist);
+  const history = filmsData.filter((film) => film.isWatched);
+  const favorites = filmsData.filter((film) => film.isWatched);
 
   const generateProfileRating = () => {
 

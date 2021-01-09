@@ -110,10 +110,10 @@ const createFilmPopupTemplate = (filmData) => {
         <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden"  id="watched" name="watched">
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden"  id="favorite" name="favorite">
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -191,9 +191,10 @@ export default class FilmPopup extends AbstractView {
 
   setAddToWatchListHandler(callback) {
     this._callback.addToWatchListClick = callback;
-    const filmViewElement = this.getElement();
-    const watchlistLabel = filmViewElement.querySelector(`.film-details__control-label--watchlist`);
 
+    const filmViewElement = this.getElement();
+
+    const watchlistLabel = filmViewElement.querySelector(`#watchlist`);
     watchlistLabel.addEventListener(`click`, this._addToWatchListHandler);
   }
 
@@ -204,9 +205,10 @@ export default class FilmPopup extends AbstractView {
 
   setAddToWatchedHandler(callback) {
     this._callback.addToWatchedClick = callback;
-    const filmViewElement = this.getElement();
-    const watchedLabel = filmViewElement.querySelector(`.film-details__control-label--watched`);
 
+    const filmViewElement = this.getElement();
+
+    const watchedLabel = filmViewElement.querySelector(`#watched`);
     watchedLabel.addEventListener(`click`, this._addToWatchedHandler);
   }
 
@@ -217,9 +219,10 @@ export default class FilmPopup extends AbstractView {
 
   setAddToFavoriteHandler(callback) {
     this._callback.addToFavoriteClick = callback;
-    const filmViewElement = this.getElement();
-    const favoriteLabel = filmViewElement.querySelector(`.film-details__control-label--favorite`);
 
+    const filmViewElement = this.getElement();
+
+    const favoriteLabel = filmViewElement.querySelector(`#favorite`);
     favoriteLabel.addEventListener(`click`, this._addToFavoriteHandler);
   }
 

@@ -20,14 +20,12 @@ export default class Film {
     this._filmView = null;
     this._mode = Mode.DEFAULT;
 
-    this._onShowPopup = this._onShowPopup.bind(this);
-    this._onPressClose = this._onPressClose.bind(this);
+    this._handleShowPopupClick = this._handleShowPopupClick.bind(this);
+    this._handlePressCloseClick = this._handlePressCloseClick.bind(this);
 
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
-
-
   }
 
   init(filmInfo) {
@@ -36,12 +34,11 @@ export default class Film {
     const prevFilmView = this._filmView;
     const prevPopupView = this._popupView;
 
-
     this._filmView = new FilmCardView(this._filmInfo);
     this._popupView = new FilmPopupView(this._filmInfo);
 
-    this._popupView.setClosePopupHandler(this._onPressClose);
-    this._filmView.setShowPopupHandler(this._onShowPopup);
+    this._popupView.setClosePopupHandler(this._handlePressCloseClick);
+    this._filmView.setShowPopupHandler(this._handleShowPopupClick);
 
     this._popupView.setAddToFavoriteHandler(this._handleFavoriteClick);
     this._popupView.setAddToWatchedHandler(this._handleWatchedClick);
@@ -51,9 +48,9 @@ export default class Film {
     this._filmView.setAddToWatchedHandler(this._handleWatchedClick);
     this._filmView.setAddToWatchListHandler(this._handleWatchlistClick);
 
-
     if (prevFilmView === null || prevPopupView === null) {
       render(this._filmListContainer, this._filmView.getElement(), RenderPosition.BEFOREEND);
+
       return;
     }
 
@@ -69,32 +66,32 @@ export default class Film {
     remove(prevPopupView);
   }
 
-  _replacePopupToCard() {
+  _doClosePopup() {
     body.classList.remove(`hide-overflow`);
     this._filmListContainer.removeChild(this._popupView.getElement());
     this._popupView.removeElement();
     this._mode = Mode.DEFAULT;
   }
 
-  _onPressClose() {
+  _handlePressCloseClick() {
     this._changeData(this._filmInfo);
-    this._replacePopupToCard();
+    this._doClosePopup();
   }
 
-  _replaceCardToPopup() {
+  _doShowPopup() {
     body.classList.add(`hide-overflow`);
     this._filmListContainer.appendChild(this._popupView.getElement());
     this._changeMode();
     this._mode = Mode.POPUP;
   }
 
-  _onShowPopup() {
-    this._replaceCardToPopup();
+  _handleShowPopupClick() {
+    this._doShowPopup();
   }
 
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
-      this._replacePopupToCard();
+      this._doClosePopup();
     }
   }
 

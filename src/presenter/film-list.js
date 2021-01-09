@@ -9,7 +9,6 @@ import {updateItem} from "../utils/common";
 
 const FILM_COUNT_PER_STEP = 5;
 const FILMS_EXTRA_COUNT = 2;
-// const body = document.querySelector(`body`);
 
 export default class FilmList {
   constructor(container) {
@@ -99,12 +98,9 @@ export default class FilmList {
   }
 
   _initShowMore() {
-
     render(this._filmList, this._showMoreButtonComponent, RenderPosition.BEFOREEND);
-
     this._showMoreButtonComponent.setShowMoreHandler(this._handleShowMoreButtonClick);
   }
-
 
   renderExtraFilms() {
     render(this._films, new FilmsTopRatedView(), RenderPosition.BEFOREEND);
@@ -124,6 +120,5 @@ export default class FilmList {
       render(filmsMostCommentedContainer, filmPresenter.init((this._filmsData[i]), RenderPosition.BEFOREEND));
     }
   }
-
 
 }
