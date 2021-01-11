@@ -26,18 +26,28 @@ export default class FilmList {
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
 
+  _renderEmptyFilmList() {
+    render(this._filmListContainer, this._filmsEmptyView, RenderPosition.BEFOREEND);
+  }
+
   init(filmsData) {
+
     this._filmsData = filmsData.slice();
-    if (this._filmsData.length === 0) {
-      render(this._filmListContainer, this._filmsEmptyView, RenderPosition.BEFOREEND);
-    } else {
+
+    if (this._filmsData.length !== 0) {
+
       render(this._filmListContainer, this._filmsView, RenderPosition.BEFOREEND);
+
       this._films = document.querySelector(`.films`);
       this._filmList = this._films.querySelector(`.films-list`);
       this._filmsContainer = this._filmList.querySelector(`.films-list__container`);
 
       this._renderedFilmCount = 0;
+
       this._createFilms();
+
+    } else {
+      this._renderEmptyFilmList();
     }
   }
 

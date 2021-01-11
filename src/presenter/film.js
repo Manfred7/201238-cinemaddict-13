@@ -101,7 +101,7 @@ export default class Film {
             {},
             this._filmInfo,
             {
-              isInWatchlist: !this._filmInfo.isInWatchlist //  тут что-то правильное надодобавить
+              isInWatchlist: !this._filmInfo.isInWatchlist
             }
         )
     );
